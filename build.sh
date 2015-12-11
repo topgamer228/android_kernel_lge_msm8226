@@ -26,12 +26,12 @@ then
 
 if [ "$model" = "D722" ]
 then
-	make2="make jagnm_global_com_defconfig"
+	make2="make jagnm_cyanogenmod_defconfig"
 fi
 
 if [ "$model" = "D724" ]
 then
-	make2="make jag3gds_global_com_defconfig"
+	make2="make jag3gds_cyanogenmod_defconfig"
 fi
 
 elif [ "$instruct" = "clean" ]
@@ -70,7 +70,7 @@ fi
 
 if [ "$instruct" = "dtb" ]
 then
-	make dtbs && ./dtbToolCM -2 -s 2048 -p ./scripts/dtc/ -o ./arch/arm/boot/dt.img ./arch/arm/boot/
+	make dtbs && ./dtbToolCM -j5 -s 2048 -p ./scripts/dtc/ -o ./arch/arm/boot/dt.img ./arch/arm/boot/
 
 fi
 
