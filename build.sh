@@ -99,12 +99,6 @@ fi
 if [ "$zip" = "y" ]
 then
 
-	echo "Copying modules to unzipped directory"
-
-	rm -f ./Output/BreadandButterKernel_CM/system/lib/modules/*
-
-	find -name "*.ko" -exec cp -f '{}'  ./Output/BreadandButterKernel_CM/system/lib/modules/ \;
-
 	echo "Copying image to root of unzipped directory renaming it boot."
 
 	cp ./Output/$model.img ./Output/BreadandButterKernel_CM/boot.img
