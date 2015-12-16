@@ -1,7 +1,5 @@
 #!/bin/bash
 
-$model=D722
-
 make1="make mrproper"
 
 make2="make jagnm_cyanogenmod_defconfig"
@@ -23,7 +21,7 @@ fi
 
 echo "Copying files to respective folder"
 
-		cd ./RAMDISK/$model/
+		cd ./RAMDISK/D722/
 		./cleanup.sh
 		./unpackimg.sh boot.img
 		cp ../boot.img-ramdiskcomp ./split_img/boot.img-ramdiskcomp
@@ -35,5 +33,5 @@ echo "Copying files to respective folder"
 		./bump.py image-new.img
 		cd ../../
 		echo "Moving Kernel to output folder"
-		mv ./RAMDISK/$model/image-new_bumped.img ./Output/$model.img
+		mv ./RAMDISK/D722/image-new_bumped.img ./Output/D722.img
 
