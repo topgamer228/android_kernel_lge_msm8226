@@ -786,12 +786,8 @@
 /system/bin/hwaddrs		u:object_r:hwaddrs_exec:s0
 /system/bin/bdaddr_loader	u:object_r:hwaddrs_exec:s0
 
-/data/misc/sensor/fifo_cmd		u:object_r:sensors_data_file:s0
-/data/misc/sensor/fifo_dat		u:object_r:sensors_data_file:s0
-/data/misc/sensor/profile_calib_a	u:object_r:sensors_data_file:s0
-/data/misc/sensor/profile_calib_m	u:object_r:sensors_data_file:s0
-/data/misc/sensor/sensord.err		u:object_r:sensors_data_file:s0
-/data/misc/sensor/.id			u:object_r:sensors_data_file:s0
+/data/misc/sensor(/.*)?			u:object_r:sensors_data_file:s0
+
 #line 1 "vendor/cm/sepolicy/file_contexts"
 /cache/dalvik-cache(/.*)? u:object_r:dalvikcache_data_file:s0
 
@@ -808,6 +804,9 @@
 
 /system/etc/init.d/90userinit           u:object_r:userinit_exec:s0
 /data/local/userinit.sh                 u:object_r:userinit_data_exec:s0
+
+# For F2FS partitions marked "formattable"
+/system/bin/mkfs\.f2fs    u:object_r:mkfs_exec:s0
 
 # For minivold in recovery
 /sbin/minivold            u:object_r:vold_exec:s0
@@ -837,3 +836,7 @@
 /sys/devices/virtual/graphics/fb0/cabc          u:object_r:livedisplay_sysfs:s0
 /sys/devices/virtual/graphics/fb0/rgb           u:object_r:livedisplay_sysfs:s0
 /sys/devices/virtual/graphics/fb0/sre           u:object_r:livedisplay_sysfs:s0
+
+# fsck
+/system/bin/fsck\.ntfs                          u:object_r:fsck_exec:s0
+/system/bin/fsck\.exfat                         u:object_r:fsck_exec:s0
