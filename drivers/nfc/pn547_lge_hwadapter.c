@@ -6,11 +6,12 @@ int pn547_get_hw_revision(void)
     int  hw_revision = LGE_PCB_MAX;
     hw_revision = system_rev;
 #else
-    hw_rev_type hw_revision = HW_REV_MAX;
-    hw_revision = lge_get_board_revno();
+//    hw_rev_type hw_revision = HW_REV_MAX;
+//    hw_revision = lge_get_board_revno();
 #endif
-    dprintk(PN547_DRV_NAME ":ioctl: pn547_read hw revision : %d\n", hw_revision);
-    return (int)hw_revision;
+//    dprintk(PN547_DRV_NAME ":ioctl: pn547_read hw revision : %d\n", hw_revision);
+//    return (int)hw_revision;
+    return 0;
 }
 
 unsigned int pn547_get_irq_pin(struct pn547_dev *dev)
@@ -65,19 +66,20 @@ void pn547_shutdown_cb(struct pn547_dev *pn547_dev)
 }
 
 #ifdef CONFIG_LGE_NFC_USE_PMIC
-void pn547_get_clk_source(struct pn547_dev *pn547_dev)
+void pn547_get_clk_source(struct i2c_client *pn547_client, struct pn547_dev *pn547_dev)
 {
-#if 0 // RFU
-    pn547_dev->clk_cont = clk_get(&pn547_client->dev, "xo_cont");
+#if 1 // for msm8994
+    pn547_dev->clk_cont = clk_get(&pn547_client->dev, "cont_clk");
     if (pn547_dev->clk_cont == NULL) {
         pr_err("%s: PN547 could not get cont. clock!\n", __func__);
     }
-    pn547_dev->clk_pin = clk_get(&pn547_client->dev, "xo_pin");
+
+    pn547_dev->clk_pin = clk_get(&pn547_client->dev, "pin_clk");
     if (pn547_dev->clk_pin == NULL) {
         pr_err("%s: PN547 could not get pin clock!\n", __func__);
     }
-    // pr_err("%s: xo_cont = %p, xo_pin = %p\n", __func__, pn547_dev->clk_cont, pn547_dev->clk_pin); // for debug
-#else
+    pr_err("%s: xo_cont = %p, xo_pin = %p\n", __func__, pn547_dev->clk_cont, pn547_dev->clk_pin); // for debug
+#else // for msm8974 and others
     pn547_dev->clk_cont = &cxo_d1.c;
     pn547_dev->clk_pin = &cxo_d1_pin.c;
     // pr_err("%s: xo_cont = %p, xo_pin = %p\n", __func__, pn547_dev->clk_cont, pn547_dev->clk_pin); // for debug

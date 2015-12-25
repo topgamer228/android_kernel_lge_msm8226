@@ -1,4 +1,4 @@
-/*
+/* lge/include/nfc_nxp_pn547pn65n.h
  *
  * Copyright (C) 2010 NXP Semiconductors
  *
@@ -37,11 +37,9 @@
 #include <linux/miscdevice.h>
 #include <linux/spinlock.h>
 
-#include <mach/board_lge.h>
+#define PN547_MAGIC     0xE9
 
-#define PN547_MAGIC 0xE9
-
-#define PN547_DRV_NAME  "pn547"
+#define PN547_DRV_NAME      "pn547"
 
 /*
  * pn547 power control via ioctl
@@ -53,36 +51,45 @@
 
 #define pn547_HW_REVISION _IOR(PN547_MAGIC, 0x02, unsigned int)
 
+#ifdef CONFIG_LGE_NFC_USE_PMIC
+#define pn547_CLKS_SET _IOW(PN547_MAGIC, 0x03, unsigned int)
+#endif
+
 struct pn547_i2c_platform_data {
-    unsigned int sda_gpio;
-    unsigned int scl_gpio;
-    unsigned int irq_gpio;
-    unsigned int ven_gpio;
-    unsigned int firm_gpio;
+        unsigned int sda_gpio;
+        unsigned int scl_gpio;
+        unsigned int irq_gpio;
+        unsigned int ven_gpio;
+        unsigned int firm_gpio;
 };
 
-struct pn547_dev {
-    wait_queue_head_t   read_wq;
-    struct mutex        read_mutex;
-    struct i2c_client   *client;
-    struct miscdevice   pn547_device;
-    unsigned int        ven_gpio;
-    unsigned int        firm_gpio;
-    unsigned int        irq_gpio;
+
+struct pn547_dev        {
+        wait_queue_head_t       read_wq;
+        struct mutex            read_mutex;
+        struct i2c_client       *client;
+#if defined(CONFIG_LGE_NFC_HW_ODIN)
+        struct ipc_client       *regmap_ipc;
+        struct regmap           *regmap;
+#endif
+        struct miscdevice       pn547_device;
+        unsigned int            ven_gpio;
+        unsigned int            firm_gpio;
+        unsigned int            irq_gpio;
 #ifdef CONFIG_LGE_NFC_USE_PMIC
-    struct clk          *clk_cont;
-    struct clk          *clk_pin;
+        struct clk              *clk_cont;
+        struct clk              *clk_pin;
 #endif
     bool            irq_enabled;
     spinlock_t      irq_enabled_lock;
 };
 
 struct pn547_gpio {
-    unsigned int        sda_gpio;
-    unsigned int        scl_gpio;
-    unsigned int        ven_gpio;
-    unsigned int        firm_gpio;
-    unsigned int        irq_gpio;
+        unsigned int            sda_gpio;
+        unsigned int            scl_gpio;
+        unsigned int            ven_gpio;
+        unsigned int            firm_gpio;
+        unsigned int            irq_gpio;
 };
 
 #if defined(CONFIG_LGE_NFC_DEBUG_MESSAGE)
@@ -92,3 +99,4 @@ struct pn547_gpio {
 #endif
 
 #endif /* _PN547_LGE_H_ */
+
