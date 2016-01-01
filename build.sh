@@ -62,13 +62,13 @@ if [ -e "./arch/arm/boot/msm8226-jag3gds.dtb" ]; then
 rm ./arch/arm/boot/msm8226-jag3gds.dtb
 fi
 
-	$make1 && $make2 && make -j5 && ./dtbToolCM -2 -s 2048 -p ./scripts/dtc/ -o ./arch/arm/boot/dt.img ./arch/arm/boot/
+	$make1 && $make2 && make -j2 && ./dtbToolCM -2 -s 2048 -p ./scripts/dtc/ -o ./arch/arm/boot/dt.img ./arch/arm/boot/
 
 fi
 
 if [ "$instruct" = "dtb" ]
 then
-	make dtbs && ./dtbToolCM -j5 -s 2048 -p ./scripts/dtc/ -o ./arch/arm/boot/dt.img ./arch/arm/boot/
+	make dtbs && ./dtbToolCM -j2 -s 2048 -p ./scripts/dtc/ -o ./arch/arm/boot/dt.img ./arch/arm/boot/
 
 fi
 
@@ -85,6 +85,7 @@ echo "Copying files to respective folder"
 		./cleanup.sh
 		./unpackimg.sh boot.img
 		cp ../boot.img-ramdiskcomp ./split_img/boot.img-ramdiskcomp
+		cp ../fstab.qcom ./ramdisk/fstab.qcom
 		cp ../../arch/arm/boot/zImage ./split_img/boot.img-zImage
 		cp ../../arch/arm/boot/dt.img ./split_img/boot.img-dtb
 		echo "Repacking Kernel"
