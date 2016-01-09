@@ -6,6 +6,15 @@ echo "mrproper, clean, dtb or build"
 read instruct
 echo "compile: y/N"
 read compile
+echo "state how many cores?: y/N (2 default)"
+read cores
+if [ "$cores" = "y" ]
+then
+echo "how many cores to use in compilation?"
+read corenum
+else
+	corenum="2"
+fi
 echo "Do you want to repack? y/N"
 read repack
 echo "Do you you want to create a flashable zip? y/N"
@@ -62,13 +71,13 @@ if [ -e "./arch/arm/boot/msm8226-jag3gds.dtb" ]; then
 rm ./arch/arm/boot/msm8226-jag3gds.dtb
 fi
 
-	$make1 && $make2 && make -j2 && ./dtbToolCM -2 -s 2048 -p ./scripts/dtc/ -o ./arch/arm/boot/dt.img ./arch/arm/boot/
+	$make1 && $make2 && make -j$corenum && ./dtbToolCM -2 -s 2048 -p ./scripts/dtc/ -o ./arch/arm/boot/dt.img ./arch/arm/boot/
 
 fi
 
 if [ "$instruct" = "dtb" ]
 then
-	make dtbs && ./dtbToolCM -j2 -s 2048 -p ./scripts/dtc/ -o ./arch/arm/boot/dt.img ./arch/arm/boot/
+	make dtbs && ./dtbToolCM -j$corenum -s 2048 -p ./scripts/dtc/ -o ./arch/arm/boot/dt.img ./arch/arm/boot/
 
 fi
 
