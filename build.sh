@@ -2,8 +2,6 @@
 
 echo "Input Model: D722, D724"
 read model
-echo "CM/Stock/MAXICM"
-read os
 echo "mrproper, clean, dtb or build"
 read instruct
 echo "compile: y/N"
@@ -83,7 +81,7 @@ then
 
 echo "Copying files to respective folder"
 
-		cd ./RAMDISK/$model$os/
+		cd ./RAMDISK/$model/
 		./cleanup.sh
 		./unpackimg.sh boot.img
 		cp ../boot.img-ramdiskcomp ./split_img/boot.img-ramdiskcomp
@@ -95,39 +93,23 @@ echo "Copying files to respective folder"
 		./bump.py image-new.img
 		cd ../../
 		echo "Moving Kernel to output folder"
-		mv ./RAMDISK/$model$os/image-new_bumped.img ./Output/$model$os.img
+		mv ./RAMDISK/$model/image-new_bumped.img ./Output/$model.img
 fi
 
 if [ "$zip" = "y" ]
 then
 
-	echo "Copying modules to unzipped directory"
-
-	rm -f ./Output/BreadandButterKernel_$os/system/lib/modules/*
-
-	find -name "*.ko" -exec cp -f '{}'  ./Output/BreadandButterKernel_$os/system/lib/modules/ \;
-
 	echo "Copying image to root of unzipped directory renaming it boot."
 
-	cp ./Output/$model$os.img ./Output/BreadandButterKernel_$os/boot.img
-	cd ./Output/BreadandButterKernel_$os
+	cp ./Output/$model.img ./Output/BreadandButterKernel_CM/boot.img
+	cd ./Output/BreadandButterKernel_CM
 
 	echo "Changing the directory to root of BreadandButterKernel directory."
 
 	echo "Creating flashable zip."
 
-if [ "$os" = "CM" ]
-then
-	zip -r BreadandButterKernel_$os#$ver-$model.zip . -x ".*"
-fi
-if [ "$os" = "MAXICM" ]
-then
-	zip -r BreadandButterKernel_MaxiCM#$ver-$model.zip . -x ".*"
-fi
-if [ "$os" = "Stock" ]
-then
-	zip -r BreadandButterKernel#$ver-$model.zip . -x ".*"
-fi
+	zip -r BreadandButterKernel_CM13#$ver-$model.zip . -x ".*"
+
     echo "Moving zipped file to output folder."
 
     mv *.zip  ../
