@@ -15,7 +15,7 @@ debug.atrace.tags.enableflags=0
 #
 # BOOTIMAGE_BUILD_PROPERTIES
 #
-ro.bootimage.build.date=Wed Mar 9 22:48:20 PST 2016
-ro.bootimage.build.date.utc=1457592500
-ro.bootimage.build.fingerprint=lge/cm_jag3gds/jag3gds:6.0.1/MMB29V/baf12162f1:userdebug/test-keys
+ro.bootimage.build.date=Sun Apr 3 23:04:42 PDT 2016
+ro.bootimage.build.date.utc=1459749882
+ro.bootimage.build.fingerprint=lge/cm_jag3gds/jag3gds:6.0.1/MHC19J/3454aa6751:userdebug/test-keys
 persist.sys.usb.config=none
