@@ -99,6 +99,15 @@
             ]
         },
         {
+            "name": "BreadandButterKernel_CM13#16.9-D724",
+            "url": "https://github.com/TheNotOnly/android_kernel_lge_msm8226/raw/cm-13.0/Release/BreadandButterKernel_CM13%2316.9-D724.zip",
+            "md5sum": "CF2D7EEF208C4E8FA3802C0981834435",
+            "changelog": [
+                "View change log above",
+                "cm-13.0-20160404-NIGHTLY"
+            ]
+        },
+        {
             "name": "BreadandButterKernel_CM13#16.8-D724",
             "url": "https://github.com/TheNotOnly/android_kernel_lge_msm8226/raw/cm-13.0/Release/BreadandButterKernel_CM13%2316.8-D724.zip",
             "md5sum": "45E60A41ED158636DE7366588991E7EB",
