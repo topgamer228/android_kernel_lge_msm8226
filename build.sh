@@ -110,11 +110,10 @@ if [ "$zip" = "y" ]
 then
 
 	echo "Copying image to root of unzipped directory renaming it boot."
-
 	cp ./Output/$model.img ./Output/BreadandButterKernel_CM/boot.img
-	cd ./Output/BreadandButterKernel_CM
-
+	
 	echo "Changing the directory to root of BreadandButterKernel directory."
+	cd ./Output/BreadandButterKernel_CM
 
 	echo "Creating flashable zip."
 
@@ -122,7 +121,7 @@ then
 
     echo "Moving zipped file to output folder."
 
-    mv *.zip  ../
+    mv *.zip  ../../Release
 
     echo "
 
