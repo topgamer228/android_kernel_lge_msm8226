@@ -101,10 +101,10 @@
         {
             "name": "BreadandButterKernel_CM13#16.9-D722",
             "url": "https://github.com/TheNotOnly/android_kernel_lge_msm8226/raw/cm-13.0/Release/BreadandButterKernel_CM13%2316.9-D722.zip",
-            "md5sum": "4F8C6AF54C2560515A432D72E5E4BFC5",
+            "md5sum": "6A79D45A47BC09864429C2DF4131C2D5",
             "changelog": [
                 "View change log above",
-                "cm-13.0-20160404-NIGHTLY"
+                "cm-13.0-20160417-NIGHTLY"
             ]
         },
         {
