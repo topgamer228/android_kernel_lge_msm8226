@@ -1,7 +1,7 @@
 {
     "name": "",
     "short_description": "Bread and Butter Kernel by TheNotOnly",
-    "long_description": "Bread and Butter Kernel Compatible for Stock Lollipop and CM Lollipop/Marshmellow based ROMS only.",
+    "long_description": "Bread and Butter Kernel Compatible for Stock Lollipop and CM Lollipop/Marshmallow based ROMS only.",
     "logo": "https://raw.githubusercontent.com/TheNotOnly/android_kernel_lge_jagnm_lp/master/banner.jpg",
     "xda": "http://forum.xda-developers.com/lg-g3/development/lg-g3-beat-d722-custom-kernel-t3155724",
     "github": "https://github.com/TheNotOnly/android_kernel_lge_msm8226",
