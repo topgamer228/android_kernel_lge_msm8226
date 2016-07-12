@@ -39,7 +39,7 @@ CONFIG_IRQ_WORK=y
 #
 # General setup
 #
-CONFIG_CROSS_COMPILE="./Toolchain/5.1-cortexa7/bin/arm-architoolchain-linux-gnueabihf-"
+CONFIG_CROSS_COMPILE="./Toolchain/5.3-linaro/bin/arm-linux-gnueabihf-"
 CONFIG_EXPERIMENTAL=y
 CONFIG_INIT_ENV_ARG_LIMIT=32
 CONFIG_LOCALVERSION=""
