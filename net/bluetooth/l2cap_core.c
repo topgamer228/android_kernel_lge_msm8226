@@ -4282,6 +4282,9 @@ static int l2cap_connect_rsp(struct l2cap_conn *conn,
 	if (cmd_len < sizeof(*rsp))
 		return -EPROTO;
 
+	if (cmd_len < sizeof(*rsp))
+		return -EPROTO;
+
 	scid   = __le16_to_cpu(rsp->scid);
 	dcid   = __le16_to_cpu(rsp->dcid);
 	result = __le16_to_cpu(rsp->result);
@@ -4357,6 +4360,9 @@ static inline int l2cap_config_req(struct l2cap_conn *conn, struct l2cap_cmd_hdr
 	struct sock *sk;
 	int len;
 	u8 amp_move_reconf = 0;
+
+	if (cmd_len < sizeof(*req))
+		return -EPROTO;
 
 	if (cmd_len < sizeof(*req))
 		return -EPROTO;
@@ -4623,6 +4629,9 @@ static inline int l2cap_disconnect_req(struct l2cap_conn *conn,
 	if (cmd_len != sizeof(*req))
 		return -EPROTO;
 
+	if (cmd_len != sizeof(*req))
+		return -EPROTO;
+
 	scid = __le16_to_cpu(req->scid);
 	dcid = __le16_to_cpu(req->dcid);
 
@@ -4677,7 +4686,7 @@ static inline int l2cap_disconnect_rsp(struct l2cap_conn *conn,
 	u16 dcid, scid;
 	struct sock *sk;
 
-	if (cmd_len != sizeof(*rsp))
+	if (cmd_len < sizeof(*rsp))
 		return -EPROTO;
 
 	scid = __le16_to_cpu(rsp->scid);
