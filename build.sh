@@ -1,136 +1,30 @@
 #!/bin/bash
 
-echo "Input Model: D722, D724"
-read model
-echo "mrproper, clean, dtb or build"
-read instruct
-echo "compile: y/N"
-read compile
-echo "state how many cores?: y/N (2 default)"
-read cores
-if [ "$cores" = "y" ]
-then
-echo "how many cores to use in compilation?"
-read corenum
-else
-	corenum="2"
-fi
-echo "Do you want to repack? y/N"
-read repack
-echo "Do you you want to create a flashable zip? y/N"
-read zip
+echo "What version?"
+read ver
 
-if [ "$zip" = "y" ]
-then
-	echo "What version?"
-	read ver
-fi
+rm ./arch/arm/boot/*.dtb
+rm ./arch/arm/boot/dtb*
+rm ./arch/arm/boot/zImage*
 
-if [ "$instruct" = "mrproper" ]
-then
+make mrproper
+make jagnm_cyanogenmod_defconfig
+make -j4
+./dtbToolCM -2 -s 2048 -p ./scripts/dtc/ -o ./arch/arm/boot/dtb.jagnm ./arch/arm/boot/
+mv /arch/arm/boot/zImage /arch/arm/boot/zImage.jagnm
 
-	make1="make mrproper"
+make mrproper
+make jag3gds_cyanogenmod_defconfig
+make -j4
+./dtbToolCM -2 -s 2048 -p ./scripts/dtc/ -o ./arch/arm/boot/dtb.jag3gds ./arch/arm/boot/
+mv /arch/arm/boot/zImage /arch/arm/boot/zImage.jag3gds
 
-if [ "$model" = "D722" ]
-then
-	make2="make jagnm_cyanogenmod_defconfig"
-fi
+cd ./anykernel
+cp ./arch/arm/boot/zImage* ./anykernel/
+cp ./arch/arm/boot/dtb* ./anykernel/
 
-if [ "$model" = "D724" ]
-then
-	make2="make jag3gds_cyanogenmod_defconfig"
-fi
+zip -r BreadandButterKernel_CM13#$ver.zip . -x ".*"
 
-elif [ "$instruct" = "clean" ]
-then
+echo "Moving zipped file to output folder."
 
-	make1="make clean"
-	make2="make oldconfig"
-
-elif [ "$instruct" = "build" ]
-then
-
-	make1="echo """
-	make2="echo """
-
-fi
-
-if [ "$compile" = "y" ]
-then
-
-if [ -e "./arch/arm/boot/dt.img" ]; then
-rm ./arch/arm/boot/dt.img
-fi
-
-if [ -e "./arch/arm/boot/msm8226-v1-jagnm.dtb" ]; then
-rm ./arch/arm/boot/msm8226-v1-jagnm.dtb
-rm ./arch/arm/boot/msm8226-v2-jagnm.dtb
-fi
-
-if [ -e "./arch/arm/boot/msm8226-jag3gds.dtb" ]; then
-rm ./arch/arm/boot/msm8226-jag3gds.dtb
-fi
-
-	$make1 && $make2 && make -j$corenum && ./dtbToolCM -2 -s 2048 -p ./scripts/dtc/ -o ./arch/arm/boot/dt.img ./arch/arm/boot/
-
-fi
-
-if [ "$instruct" = "dtb" ]
-then
-	make dtbs && ./dtbToolCM -j$corenum -s 2048 -p ./scripts/dtc/ -o ./arch/arm/boot/dt.img ./arch/arm/boot/
-
-fi
-
-if [ ! -d "Output" ]; then
-mkdir Output
-fi
-
-if [ "$repack" = "y" ]
-then
-
-echo "Copying files to respective folder"
-
-		cd ./RAMDISK/$model/
-		./cleanup.sh
-		./unpackimg.sh boot.img
-		cp ../boot.img-ramdiskcomp ./split_img/boot.img-ramdiskcomp
-		cp ../fstab.qcom ./ramdisk/fstab.qcom
-		cp ../../arch/arm/boot/zImage ./split_img/boot.img-zImage
-		cp ../../arch/arm/boot/dt.img ./split_img/boot.img-dtb
-		echo "Repacking Kernel"
-		./repackimg.sh
-		echo "Signing Kernel"
-		./bump.py image-new.img
-		cd ../../
-		echo "Moving Kernel to output folder"
-		mv ./RAMDISK/$model/image-new_bumped.img ./Output/$model.img
-fi
-
-if [ "$zip" = "y" ]
-then
-
-	echo "Copying image to root of unzipped directory renaming it boot."
-	cp ./Output/$model.img ./Output/BreadandButterKernel_CM/boot.img
-	
-	echo "Changing the directory to root of BreadandButterKernel directory."
-	cd ./Output/BreadandButterKernel_CM
-
-	echo "Creating flashable zip."
-
-	zip -r BreadandButterKernel_CM13#$ver-$model.zip . -x ".*"
-
-    echo "Moving zipped file to output folder."
-
-    mv *.zip  ../../Release
-
-    echo "
-
-        ____   ____   _   __ ______ __ __
-   / __ \ / __ \ / | / // ____// // /
-  / / / // / / //  |/ // __/  / // / 
- / /_/ // /_/ // /|  // /___ /_//_/  
-/_____/ \____//_/ |_//_____/(_)(_)   
-                                     
-"
-fi
-
+mv *.zip  ../Release
