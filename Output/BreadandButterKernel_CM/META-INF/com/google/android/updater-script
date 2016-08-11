@@ -20,7 +20,8 @@ ui_print("
                                
                               ");
 
-ui_print("  _  __                    _ 
+ui_print("
+  _  __                    _ 
  | |/ /                   | |
  | ' / ___ _ __ _ __   ___| |
  |  < / _ \ '__| '_ \ / _ \ |
@@ -32,12 +33,10 @@ ui_print(" Mounting partitions ");
 run_program("/sbin/busybox", "mount", "/system");
 ui_print(" Installing Bread and Butter Kernel ");
 
-ui_print("Removing old modules");
-delete_recursive("/system/lib/modules");
 
-ui_print("Installing new modules");
+ui_print("Extracting init.d script and setting permissions");
 package_extract_dir("system", "/system");
-set_perm_recursive(0, 0, 0755, 0644, "/system/lib/modules");
+set_perm_recursive(0, 0, 0755, 0755, "/system/etc/init.d");
 
 ui_print(" Flashing Boot ");
 package_extract_file("boot.img", "/dev/block/platform/msm_sdcc.1/by-name/boot");
