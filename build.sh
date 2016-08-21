@@ -11,17 +11,16 @@ make mrproper
 make jagnm_cyanogenmod_defconfig
 make -j4
 ./dtbToolCM -2 -s 2048 -p ./scripts/dtc/ -o ./arch/arm/boot/dtb.jagnm ./arch/arm/boot/
-mv /arch/arm/boot/zImage /arch/arm/boot/zImage.jagnm
+mv ./arch/arm/boot/zImage ./anykernel/zImage.jagnm
 
 make mrproper
 make jag3gds_cyanogenmod_defconfig
 make -j4
 ./dtbToolCM -2 -s 2048 -p ./scripts/dtc/ -o ./arch/arm/boot/dtb.jag3gds ./arch/arm/boot/
-mv /arch/arm/boot/zImage /arch/arm/boot/zImage.jag3gds
+mv ./arch/arm/boot/zImage ./anykernel/zImage.jag3gds
+cp ./arch/arm/boot/dtb* ./anykernel/
 
 cd ./anykernel
-cp ./arch/arm/boot/zImage* ./anykernel/
-cp ./arch/arm/boot/dtb* ./anykernel/
 
 zip -r BreadandButterKernel_CM13#$ver.zip . -x ".*"
 
