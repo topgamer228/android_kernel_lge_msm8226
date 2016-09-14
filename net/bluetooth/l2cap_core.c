@@ -1039,6 +1039,7 @@ static void l2cap_le_conn_ready(struct l2cap_conn *conn)
 	write_lock_bh(&list->lock);
 
 	hci_conn_hold(conn->hcon);
+	conn->hcon->disc_timeout = HCI_DISCONN_TIMEOUT;
 
 	l2cap_sock_init(sk, parent);
 	bacpy(&bt_sk(sk)->src, conn->src);
@@ -2833,6 +2834,9 @@ static struct sk_buff *l2cap_build_cmd(struct l2cap_conn *conn,
 	if (conn->mtu < L2CAP_HDR_SIZE + L2CAP_CMD_HDR_SIZE)
 		return NULL;
 
+	if (conn->mtu < L2CAP_HDR_SIZE + L2CAP_CMD_HDR_SIZE)
+		return NULL;
+
 	len = L2CAP_HDR_SIZE + L2CAP_CMD_HDR_SIZE + dlen;
 	count = min_t(unsigned int, mtu, len);
 
@@ -4278,6 +4282,9 @@ static int l2cap_connect_rsp(struct l2cap_conn *conn,
 	if (cmd_len < sizeof(*rsp))
 		return -EPROTO;
 
+	if (cmd_len < sizeof(*rsp))
+		return -EPROTO;
+
 	scid   = __le16_to_cpu(rsp->scid);
 	dcid   = __le16_to_cpu(rsp->dcid);
 	result = __le16_to_cpu(rsp->result);
@@ -4353,6 +4360,9 @@ static inline int l2cap_config_req(struct l2cap_conn *conn, struct l2cap_cmd_hdr
 	struct sock *sk;
 	int len;
 	u8 amp_move_reconf = 0;
+
+	if (cmd_len < sizeof(*req))
+		return -EPROTO;
 
 	if (cmd_len < sizeof(*req))
 		return -EPROTO;
@@ -4619,6 +4629,9 @@ static inline int l2cap_disconnect_req(struct l2cap_conn *conn,
 	if (cmd_len != sizeof(*req))
 		return -EPROTO;
 
+	if (cmd_len != sizeof(*req))
+		return -EPROTO;
+
 	scid = __le16_to_cpu(req->scid);
 	dcid = __le16_to_cpu(req->dcid);
 
@@ -4673,7 +4686,7 @@ static inline int l2cap_disconnect_rsp(struct l2cap_conn *conn,
 	u16 dcid, scid;
 	struct sock *sk;
 
-	if (cmd_len != sizeof(*rsp))
+	if (cmd_len < sizeof(*rsp))
 		return -EPROTO;
 
 	scid = __le16_to_cpu(rsp->scid);
