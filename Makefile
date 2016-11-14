@@ -574,6 +574,11 @@ else
 KBUILD_CFLAGS	+= -Ofast -fmodulo-sched -fmodulo-sched-allow-regmoves -fno-tree-vectorize -Wno-array-bounds
 KBUILD_CFLAGS	+= $(call cc-disable-warning,maybe-uninitialized,)
 KBUILD_CFLAGS	+= $(call cc-disable-warning, deprecated-declarations)
+KBUILD_CFLAGS	+= $(call cc-disable-warning, misleading-indentation)
+KBUILD_CFLAGS	+= $(call cc-disable-warning, unused-const-variable)
+KBUILD_CFLAGS	+= $(call cc-disable-warning, bool-compare)
+KBUILD_CFLAGS	+= $(call cc-disable-warning, shift-overflow)
+KBUILD_CFLAGS	+= $(call cc-disable-warning, tautological-compare)
 endif
 
 include $(srctree)/arch/$(SRCARCH)/Makefile
